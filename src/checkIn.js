@@ -3,6 +3,8 @@ import 'dotenv/config'
 
 import * as constants from './constants.js'
 
+let truthChromePath = ''
+
 const website = async (chromePath, headlessOption = 'new') => {
     const browser = await puppeteer.launch({
         headless: headlessOption,
@@ -23,18 +25,19 @@ const website = async (chromePath, headlessOption = 'new') => {
 
 const checkChromePath = async (headlessOption) => {
     try {
-        const { page, browser } = await website(constants.CHROME_PATH_1, headlessOption)
-        return { page, browser }
+        await website(constants.CHROME_PATH_1)
+        truthChromePath = constants.CHROME_PATH_1
     } catch (error) {}
 
     try {
-        const { page, browser } = await website(constants.CHROME_PATH_2, headlessOption)
-        return { page, browser }
+        await website(constants.CHROME_PATH_2)
+        truthChromePath = constants.CHROME_PATH_2
     } catch (error) {}
 }
+checkChromePath()
 
 export const checkIn = async () => {
-    const { page, browser } = await checkChromePath()
+    const { page, browser } = await website(truthChromePath)
 
     await page.waitForTimeout(5000)
 
@@ -70,7 +73,7 @@ export const checkIn = async () => {
 }
 
 export const loginHSR = async () => {
-    const { page, browser } = await checkChromePath(false)
+    const { page, browser } = await website(truthChromePath, false)
 
     await page.waitForTimeout(5000)
 
