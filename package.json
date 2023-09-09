@@ -1,15 +1,15 @@
 {
-  "name": "hsr-auto-daily",
-  "type": "module",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "node ./src/index.js"
-  },
-  "dependencies": {
-    "dotenv": "^16.3.1",
-    "node-cmd": "^5.0.0",
-    "puppeteer": "^20.7.4"
-  }
+    "name": "hsr-auto-daily",
+    "type": "module",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "node ./index.js"
+    },
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "node-cmd": "^5.0.0",
+        "puppeteer": "^20.7.4"
+    }
 }
