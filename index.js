@@ -4,7 +4,7 @@ import cmd from 'node-cmd'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 
-import { checkIn, loginHSR } from './checkIn.js'
+import { checkIn, loginHSR } from './src/checkIn.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
