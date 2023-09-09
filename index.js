@@ -1,12 +1,9 @@
 import fs from 'fs'
 import dns from 'dns'
-import cmd from 'node-cmd'
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
+import open from 'open'
 
 import { checkIn, loginHSR } from './src/checkIn.js'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import * as constants from './src/constants.js'
 
 const date = new Date()
 const today = date.getDate()
@@ -15,7 +12,7 @@ const year = date.getFullYear()
 
 const addCheckedList = () => {
     fs.appendFile(
-        process.env.CHECK_LIST,
+        constants.CHECK_LIST,
         `${today} / ${month} / ${year} đã điểm danh thành công
 `,
         function (err, data) {
@@ -27,7 +24,7 @@ const addCheckedList = () => {
 dns.resolve('www.google.com', async (err) => {
     if (err) {
         console.log('Not internet')
-        cmd.runSync(`start "" "${__dirname}/src/no_internet.html"`)
+        await open(constants.PAGE)
     } else {
         const isSuccess = await checkIn()
         if (isSuccess === true) {

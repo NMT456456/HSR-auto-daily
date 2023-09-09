@@ -5,11 +5,13 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "node ./index.js"
+        "start": "node ./index.js",
+        "watch": "babel ./ --ignore node_modules --out-dir ./build"
     },
     "dependencies": {
         "dotenv": "^16.3.1",
         "node-cmd": "^5.0.0",
+        "open": "^9.1.0",
         "puppeteer": "^20.7.4"
     }
 }

@@ -1,17 +1,19 @@
 import puppeteer from 'puppeteer'
 import 'dotenv/config'
 
-const website = async (headlessOption = 'new') => {
+import * as constants from './constants.js'
+
+const website = async (chromePath, headlessOption = 'new') => {
     const browser = await puppeteer.launch({
         headless: headlessOption,
-        userDataDir: process.env.USER_DATA,
-        executablePath: process.env.CHROME_PATH,
+        userDataDir: process.env.USER_DATA || constants.USER_DATA,
+        executablePath: process.env.CHROME_PATH || chromePath,
         args: ['--disable-features=site-per-process'],
     })
 
     const page = await browser.newPage()
 
-    await page.goto(process.env.PAGE)
+    await page.goto(constants.PAGE)
 
     // // Set screen size
     await page.setViewport({ width: 1920, height: 969, args: ['--start-maximized'] })
@@ -19,13 +21,25 @@ const website = async (headlessOption = 'new') => {
     return { page, browser }
 }
 
-export const checkIn = async () => {
+const checkChromePath = async (headlessOption) => {
+    try {
+        const { page, browser } = await website(constants.CHROME_PATH_1, headlessOption)
+        return { page, browser }
+    } catch (error) {}
 
-    const { page, browser } = await website()
+    try {
+        const { page, browser } = await website(constants.CHROME_PATH_2, headlessOption)
+        return { page, browser }
+    } catch (error) {}
+}
+
+export const checkIn = async () => {
+    const { page, browser } = await checkChromePath()
 
     await page.waitForTimeout(5000)
 
-    const checkedElement = await page.$$('.components-pc-assets-__prize-list_---item---F852VZ') || undefined
+    const checkedElement =
+        (await page.$$('.components-pc-assets-__prize-list_---item---F852VZ')) || undefined
 
     if (checkedElement === undefined) {
         await browser.close()
@@ -56,8 +70,7 @@ export const checkIn = async () => {
 }
 
 export const loginHSR = async () => {
-
-    const { page, browser } = await website(false)
+    const { page, browser } = await checkChromePath(false)
 
     await page.waitForTimeout(5000)
 
