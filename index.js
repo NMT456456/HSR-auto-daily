@@ -27,7 +27,7 @@ const addCheckedList = () => {
 dns.resolve('www.google.com', async (err) => {
     if (err) {
         console.log('Not internet')
-        cmd.runSync(`start "" "${__dirname}/no_internet.html"`)
+        cmd.runSync(`start "" "${__dirname}/src/no_internet.html"`)
     } else {
         const isSuccess = await checkIn()
         if (isSuccess === true) {
