@@ -24,7 +24,7 @@ const addCheckedList = () => {
 dns.resolve('www.google.com', async (err) => {
     if (err) {
         console.log('Not internet')
-        await open(constants.PAGE)
+        await open('./src/no_internet.html')
     } else {
         const isSuccess = await checkIn()
         if (isSuccess === true) {
