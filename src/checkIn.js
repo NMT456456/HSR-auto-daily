@@ -3,41 +3,48 @@ import 'dotenv/config'
 
 import * as constants from './constants.js'
 
-let truthChromePath = ''
-
-const website = async (chromePath, headlessOption = 'new') => {
-    const browser = await puppeteer.launch({
-        headless: headlessOption,
-        userDataDir: process.env.USER_DATA || constants.USER_DATA,
-        executablePath: process.env.CHROME_PATH || chromePath,
-        args: ['--disable-features=site-per-process'],
-    })
-
-    const page = await browser.newPage()
-
-    await page.goto(constants.PAGE)
-
-    // // Set screen size
-    await page.setViewport({ width: 1920, height: 969, args: ['--start-maximized'] })
-
-    return { page, browser }
-}
-
-const checkChromePath = async (headlessOption) => {
+const website = async (headlessOption = 'new') => {
     try {
-        await website(constants.CHROME_PATH_1)
-        truthChromePath = constants.CHROME_PATH_1
+        const browser = await puppeteer.launch({
+            headless: headlessOption,
+            userDataDir: process.env.USER_DATA || constants.USER_DATA,
+            executablePath: process.env.CHROME_PATH || constants.CHROME_PATH_1,
+            args: ['--disable-features=site-per-process'],
+        })
+
+        const page = await browser.newPage()
+
+        await page.goto(constants.PAGE)
+
+        // // Set screen size
+        await page.setViewport({ width: 1920, height: 969, args: ['--start-maximized'] })
+
+        return { page, browser }
     } catch (error) {}
 
     try {
-        await website(constants.CHROME_PATH_2)
-        truthChromePath = constants.CHROME_PATH_2
+        const browser = await puppeteer.launch({
+            headless: headlessOption,
+            userDataDir: process.env.USER_DATA || constants.USER_DATA,
+            executablePath: process.env.CHROME_PATH || constants.CHROME_PATH_2,
+            args: ['--disable-features=site-per-process'],
+        })
+
+        const page = await browser.newPage()
+
+        await page.goto(constants.PAGE)
+
+        // // Set screen size
+        await page.setViewport({ width: 1920, height: 969, args: ['--start-maximized'] })
+
+        return { page, browser }
     } catch (error) {}
 }
-checkChromePath()
 
 export const checkIn = async () => {
-    const { page, browser } = await website(truthChromePath)
+    const data = await website()
+    const page = data.page
+    const browser = data.browser
 
     await page.waitForTimeout(5000)
 
@@ -73,7 +80,7 @@ export const checkIn = async () => {
 }
 
 export const loginHSR = async () => {
-    const { page, browser } = await website(truthChromePath, false)
+    const { page, browser } = await website(false)
 
     await page.waitForTimeout(5000)
 
