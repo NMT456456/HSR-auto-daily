@@ -42,9 +42,7 @@ const website = async (headlessOption = 'new') => {
 }
 
 export const checkIn = async () => {
-    const data = await website()
-    const page = data.page
-    const browser = data.browser
+    const { page, browser } = await website()
 
     await page.waitForTimeout(5000)
 
