@@ -3,7 +3,7 @@ import 'dotenv/config'
 
 import * as constants from './constants.js'
 
-const website = async (headlessOption = 'new') => {
+const website = async (headlessOption = false) => {
     try {
         const browser = await puppeteer.launch({
             headless: headlessOption,
@@ -14,7 +14,9 @@ const website = async (headlessOption = 'new') => {
 
         const page = await browser.newPage()
 
-        await page.goto(constants.PAGE)
+        await page.goto(constants.PAGE, {
+            waitUntil: 'networkidle0',
+        })
 
         // // Set screen size
         await page.setViewport({ width: 1920, height: 969, args: ['--start-maximized'] })
@@ -32,7 +34,9 @@ const website = async (headlessOption = 'new') => {
 
         const page = await browser.newPage()
 
-        await page.goto(constants.PAGE)
+        await page.goto(constants.PAGE, {
+            waitUntil: 'networkidle0',
+        })
 
         // // Set screen size
         await page.setViewport({ width: 1920, height: 969, args: ['--start-maximized'] })
