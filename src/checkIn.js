@@ -3,7 +3,7 @@ import 'dotenv/config'
 
 import * as constants from './constants.js'
 
-const website = async (headlessOption = false) => {
+const website = async (headlessOption = 'new') => {
     try {
         const browser = await puppeteer.launch({
             headless: headlessOption,
